@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_first_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.szentesi.david.simpleloginapp.FirstLoginActivity">
+
+    <TextView
+        android:text="Questionnaire"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/questionnaireTextView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Cycling Pal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/appTitleTextView"
+        android:layout_below="@+id/questionnaireTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp" />
+
+    <TextView
+        android:text="Age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ageTextView"
+        android:layout_below="@+id/appTitleTextView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="54dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/ageEditText"
+        android:layout_alignBaseline="@+id/ageTextView"
+        android:layout_alignBottom="@+id/ageTextView"
+        android:layout_toEndOf="@+id/weightTextView"
+        android:layout_marginStart="42dp"
+        android:textSize="14sp"
+        android:hint="Age" />
+
+    <TextView
+        android:text="Weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/weightTextView"
+        android:layout_below="@+id/ageTextView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="25dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/weightEditText"
+        android:hint="Weight"
+        android:layout_below="@+id/ageEditText"
+        android:layout_alignStart="@+id/ageEditText"
+        android:textSize="14sp" />
+
+    <TextView
+        android:text="Height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/heightTextView"
+        android:layout_below="@+id/weightTextView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="27dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/heightEditText"
+        android:hint="Height"
+        android:layout_alignBaseline="@+id/heightTextView"
+        android:layout_alignBottom="@+id/heightTextView"
+        android:layout_alignStart="@+id/weightEditText"
+        android:textSize="14sp" />
+
+    <TextView
+        android:text="Sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sexTextView"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/sexEditText"
+        android:hint="Sex"
+        android:layout_alignBaseline="@+id/sexTextView"
+        android:layout_alignBottom="@+id/sexTextView"
+        android:layout_alignStart="@+id/heightEditText"
+        android:textSize="14sp" />
+
+    <Button
+        android:text="Submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/submitButton"
+        android:layout_below="@+id/sexEditText"
+        android:layout_alignStart="@+id/questionnaireTextView"
+        android:layout_marginTop="84dp" />
+
+</RelativeLayout>
