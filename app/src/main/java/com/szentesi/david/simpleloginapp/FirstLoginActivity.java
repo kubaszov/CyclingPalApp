@@ -20,6 +20,9 @@ public class FirstLoginActivity extends AppCompatActivity {
     private int userHeightInt;
     private String userSexString;
 
+    private SQLiteDatabase cyclingPalDataBase = openOrCreateDatabase("CyclingPal", MODE_PRIVATE, null);
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,22 +45,30 @@ public class FirstLoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 userAgeInt = Integer.parseInt(userAge.getText().toString());
-                // SQLite statement to insert into database
+                userWeightInt = Integer.parseInt(userWeight.getText().toString());
+                userHeightInt = Integer.parseInt(userHeight.getText().toString());
+                userSexString = userSex.getText().toString();
             }
         });
     }
 
     private void initialiseUsersPersonalDatabase() {
 
-        SQLiteDatabase cyclingPalDataBase = openOrCreateDatabase("CyclingPal", MODE_PRIVATE, null);
         String sqlStatement = "create table if not exists userFitnessInfo(" +
                 "age integer not null, " +
                 "weight integer not null, " +
                 "height integer not null, " +
                 "sex text not null, " +
                 "email text not null, " +
-                    "FOREIGN KEY (email) REFERENCES registrations(email));";
+                "FOREIGN KEY (email) REFERENCES registrations(email));";
         cyclingPalDataBase.execSQL(sqlStatement);
         //test
+    }
+
+    private void populateUsersPersonalDatabase( int ageInt, int weightInt, int heightInt, String sexText ) {
+
+        String sqlInsert = "INTSERT INTO userFitenssInfo ( age, weight, height, sex ) " +
+                "VALUES ( " + "'" + ageInt + "', '" + weightInt + "', '" + heightInt + "', '" + sexText + "')";
+        cyclingPalDataBase.execSQL(sqlInsert);
     }
 }
