@@ -58,5 +58,6 @@ public class FirstLoginActivity extends AppCompatActivity {
                 "email text not null, " +
                     "FOREIGN KEY (email) REFERENCES registrations(email));";
         cyclingPalDataBase.execSQL(sqlStatement);
+        //test
     }
 }
