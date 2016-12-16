@@ -1,4 +1,4 @@
-package com.szentesi.david.simpleloginapp;
+package com.szentesi.david.cyclingpalapp;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +21,6 @@ public class FirstLoginActivity extends AppCompatActivity {
     private String userSexString;
 
     private SQLiteDatabase cyclingPalDataBase = openOrCreateDatabase("CyclingPal", MODE_PRIVATE, null);
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

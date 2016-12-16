@@ -1,4 +1,4 @@
-package com.szentesi.david.simpleloginapp;
+package com.szentesi.david.cyclingpalapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

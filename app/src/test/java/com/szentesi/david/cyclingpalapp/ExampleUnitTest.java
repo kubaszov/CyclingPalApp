@@ -1,4 +1,4 @@
-package com.szentesi.david.simpleloginapp;
+package com.szentesi.david.cyclingpalapp;
 
 import org.junit.Test;
 
