@@ -76,7 +76,9 @@ public class LoginActivity extends AppCompatActivity {
                                 break;
                         }
                      }
-                    Toast.makeText(LoginActivity.this, R.string.incorrect_credentials_toast_prompt, Toast.LENGTH_LONG).show();
+                   // Need to paste the below to the correct location in the code
+                    // message pops up after successful login...
+                    // Toast.makeText(LoginActivity.this, R.string.incorrect_credentials_toast_prompt, Toast.LENGTH_LONG).show();
                 } catch (SQLiteException e) {
                     Toast.makeText(LoginActivity.this, R.string.registration_toast_prompt, Toast.LENGTH_SHORT).show();
                     launchRegistrationActivity(v);
