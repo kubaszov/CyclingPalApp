@@ -51,13 +51,14 @@ public class RegisterActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(view.getContext(), LoginActivity.class);
                 startActivity(intent);
-                Toast.makeText(RegisterActivity.this, "User created sucessfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, R.string.user_creation_toast_prompt, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void createDatabase() {
         cyclingPalDB = openOrCreateDatabase("CyclingPal", MODE_PRIVATE, null);
+        cyclingPalDB.setForeignKeyConstraintsEnabled(true);
         String sqlStatement = "create table if not exists registrations (" +
                 "_id integer primary key autoincrement, " +
                 "userName text not null, " +

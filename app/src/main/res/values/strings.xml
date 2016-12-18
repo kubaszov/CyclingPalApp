@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">SimpleLoginApp</string>
+    <string name="app_name">CyclingPal</string>
+    <string name="registration_toast_prompt">Please create account first</string>
+    <string name="user_creation_toast_prompt">User created successfully</string>
+    <string name="incorrect_credentials_toast_prompt">Login details are incorrect</string>
 </resources>
