@@ -1,5 +1,6 @@
 package com.szentesi.david.cyclingpalapp;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,9 +10,6 @@ import android.widget.EditText;
 
 public class FirstLoginActivity extends AppCompatActivity {
 
-
-
-    
     private EditText userAge;
     private EditText userWeight;
     private EditText userHeight;
@@ -23,7 +21,7 @@ public class FirstLoginActivity extends AppCompatActivity {
     private int userHeightInt;
     private String userSexString;
 
-    private SQLiteDatabase cyclingPalDataBase = null;
+    private SQLiteDatabase cyclingPalDB = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +34,7 @@ public class FirstLoginActivity extends AppCompatActivity {
         userSex = (EditText)findViewById(R.id.sexEditText);
         submitButton = (Button)findViewById(R.id.submitButton);
 
-        cyclingPalDataBase = openOrCreateDatabase("CyclingPal", MODE_PRIVATE, null);
+        cyclingPalDB = openOrCreateDatabase("CyclingPal", MODE_PRIVATE, null);
 
         initialiseUsersPersonalDatabase();
         parseUserFitnessInfo();
@@ -46,7 +44,7 @@ public class FirstLoginActivity extends AppCompatActivity {
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 userAgeInt = Integer.parseInt(userAge.getText().toString());
                 userWeightInt = Integer.parseInt(userWeight.getText().toString());
                 userHeightInt = Integer.parseInt(userHeight.getText().toString());
@@ -66,14 +64,27 @@ public class FirstLoginActivity extends AppCompatActivity {
                 "sex text not null, " +
                 "email text not null, " +
                 "FOREIGN KEY (email) REFERENCES registrations(email));";
-        cyclingPalDataBase.execSQL(sqlStatement);
+        cyclingPalDB.execSQL(sqlStatement);
         //test
     }
 
     private void populateUsersPersonalDatabase( int ageInt, int weightInt, int heightInt, String sexText ) {
 
-        String sqlInsert = "INSERT INTO userFitnessInfo ( age, weight, height, sex ) " +
-                "VALUES ( " + "'" + ageInt + "', '" + weightInt + "', '" + heightInt + "', '" + sexText + "')";
-        cyclingPalDataBase.execSQL(sqlInsert);
+        Bundle bundle = getIntent().getExtras();
+
+        String emailContainer = bundle.getString("emailContainer");
+
+        String sqlInsert = "INSERT INTO userFitnessInfo ( age, weight, height, sex, email ) " +
+                "VALUES ( " + "'" + ageInt + "', '" + weightInt + "', '" + heightInt + "', '" + sexText + "', '" + emailContainer + "')";
+        cyclingPalDB.execSQL(sqlInsert);
     }
+
+    // method to set firstLogin value to 1 after entering FirstLoginActivity
+    private void updateFirstLogin(String email) {
+        String sqlUpdate = "UPDATE registrations SET firstLogin = '1'" +
+                "WHERE email = " + "'" + email + "'";
+        cyclingPalDB.execSQL(sqlUpdate);
+    }
+
+
 }

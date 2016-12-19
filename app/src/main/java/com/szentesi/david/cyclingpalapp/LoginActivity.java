@@ -55,20 +55,24 @@ public class LoginActivity extends AppCompatActivity {
                 * Need to handle three cases:
                 * 1: When the registrations table does not exist and throws an sqlite exception
                 * 2: When user name or password is incorrect
-                * 3 :When user name does not exist
+                * 3: When user name does not exist
                  *********************************************/
                 try {
                      Cursor cursor = cyclingPalDB.rawQuery("select userName, password from registrations", null);
                      while(cursor.moveToNext()) {
                         if (username.equals(cursor.getString(0)) && password.equals(cursor.getString(1))) {
-                            // code for launch first activity
-                            cursor = cyclingPalDB.rawQuery("select firstLogin " +
+                            // code for launching first login activity
+                            cursor = cyclingPalDB.rawQuery("select firstLogin, email " +
                                     "from registrations " +
                                     "where userName = " + "'" + username + "'" + " and password = " + "'" + password + "'", null);
                             cursor.moveToFirst();
                             if (cursor.getInt(0) == 0) {
-                                // code for launching first login activity
                                 Intent intent = new Intent(v.getContext(), FirstLoginActivity.class);
+                                // creating bundle that can be called in FirstLoginActivity
+                                Bundle bundle = new Bundle();
+                                bundle.putString("emailContainer", cursor.getString(1));
+                                intent.putExtras(bundle);
+
                                 startActivity(intent);
                             }
                             else
