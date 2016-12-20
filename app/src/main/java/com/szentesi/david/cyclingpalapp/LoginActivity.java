@@ -85,6 +85,11 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(homeScreenActivityIntent);
                             }
                                 break;
+                        } else {
+                            Toast.makeText(LoginActivity.this, R.string.incorrect_credentials_toast_prompt, Toast.LENGTH_SHORT).show();
+                            usernameInput.setText("");
+                            passwordInput.setText("");
+                            usernameInput.requestFocus();
                         }
                      }
                    // Need to paste the below to the correct location in the code

@@ -5,15 +5,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FirstLoginActivity extends AppCompatActivity {
 
     private EditText userAge;
     private EditText userWeight;
     private EditText userHeight;
-    private EditText userSex;
+    private Spinner userSexSpinner;
     private Button submitButton;
 
     private int userAgeInt;
@@ -22,6 +27,7 @@ public class FirstLoginActivity extends AppCompatActivity {
     private String userSexString;
     private String emailContainer;
     private Bundle bundle;
+    private List<String> sexArray;
 
     private SQLiteDatabase cyclingPalDB = null;
 
@@ -29,12 +35,21 @@ public class FirstLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_login);
+        // set up List for spinner
+        // http://stackoverflow.com/questions/11920754/android-fill-spinner-from-java-code-programmatically
+        sexArray = new ArrayList<String>();
+        sexArray.add("Male");
+        sexArray.add("Female");
+        // created an ArrayAdapter to store the male and female values in sexArray list
+        ArrayAdapter<String> sexAdapter = new ArrayAdapter<String>(this, R.layout.sex_spinner_row, sexArray);
 
         userAge = (EditText)findViewById(R.id.ageEditText);
         userWeight = (EditText)findViewById(R.id.weightEditText);
         userHeight = (EditText)findViewById(R.id.heightEditText);
-        userSex = (EditText)findViewById(R.id.sexEditText);
+        userSexSpinner = (Spinner) findViewById(R.id.sexEditSpinner);
         submitButton = (Button)findViewById(R.id.submitButton);
+        // setAdapter method is adding my ArrayAdapter (sexAdapter) to our spinner widget
+        userSexSpinner.setAdapter(sexAdapter);
         // initialise bundle that was created within LoginActivity
         bundle = getIntent().getExtras();
         emailContainer = bundle.getString("emailContainer");
@@ -53,7 +68,9 @@ public class FirstLoginActivity extends AppCompatActivity {
                 userAgeInt = Integer.parseInt(userAge.getText().toString());
                 userWeightInt = Integer.parseInt(userWeight.getText().toString());
                 userHeightInt = Integer.parseInt(userHeight.getText().toString());
-                userSexString = userSex.getText().toString();
+                // how to get text to String using spinner
+                // http://stackoverflow.com/questions/10331854/how-to-get-spinner-selected-item-value-to-string
+                userSexString = userSexSpinner.getSelectedItem().toString();
 
                 populateUsersPersonalDatabase(userAgeInt, userWeightInt, userHeightInt, userSexString);
                 updateFirstLogin(emailContainer);
