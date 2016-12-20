@@ -94,6 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
             userName.setText("");
             email.setText("");
             password.setText("");
+            confirmPassword.setText("");
             // return cursor on screen to userName field
             // http://www.concretepage.com/forum/thread?qid=409
             userName.requestFocus();
