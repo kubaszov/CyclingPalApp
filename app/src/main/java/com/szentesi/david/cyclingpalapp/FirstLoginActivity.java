@@ -1,5 +1,6 @@
 package com.szentesi.david.cyclingpalapp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ public class FirstLoginActivity extends AppCompatActivity {
     private int userWeightInt;
     private int userHeightInt;
     private String userSexString;
+    private String emailContainer;
+    private Bundle bundle;
 
     private SQLiteDatabase cyclingPalDB = null;
 
@@ -33,6 +36,9 @@ public class FirstLoginActivity extends AppCompatActivity {
         userHeight = (EditText)findViewById(R.id.heightEditText);
         userSex = (EditText)findViewById(R.id.sexEditText);
         submitButton = (Button)findViewById(R.id.submitButton);
+        // initialise bundle that was created within LoginActivity
+        bundle = getIntent().getExtras();
+        emailContainer = bundle.getString("emailContainer");
 
         cyclingPalDB = openOrCreateDatabase("CyclingPal", MODE_PRIVATE, null);
 
@@ -51,6 +57,10 @@ public class FirstLoginActivity extends AppCompatActivity {
                 userSexString = userSex.getText().toString();
 
                 populateUsersPersonalDatabase(userAgeInt, userWeightInt, userHeightInt, userSexString);
+                updateFirstLogin(emailContainer);
+                Intent homeScreenActivityIntent = new Intent(v.getContext(), HomeScreenActivity.class);
+                homeScreenActivityIntent.putExtras(bundle);
+                startActivity(homeScreenActivityIntent);
             }
         });
     }
@@ -65,14 +75,9 @@ public class FirstLoginActivity extends AppCompatActivity {
                 "email text not null, " +
                 "FOREIGN KEY (email) REFERENCES registrations(email));";
         cyclingPalDB.execSQL(sqlStatement);
-        //test
     }
 
     private void populateUsersPersonalDatabase( int ageInt, int weightInt, int heightInt, String sexText ) {
-
-        Bundle bundle = getIntent().getExtras();
-
-        String emailContainer = bundle.getString("emailContainer");
 
         String sqlInsert = "INSERT INTO userFitnessInfo ( age, weight, height, sex, email ) " +
                 "VALUES ( " + "'" + ageInt + "', '" + weightInt + "', '" + heightInt + "', '" + sexText + "', '" + emailContainer + "')";
@@ -81,7 +86,7 @@ public class FirstLoginActivity extends AppCompatActivity {
 
     // method to set firstLogin value to 1 after entering FirstLoginActivity
     private void updateFirstLogin(String email) {
-        String sqlUpdate = "UPDATE registrations SET firstLogin = '1'" +
+        String sqlUpdate = "UPDATE registrations SET firstLogin = '1' " +
                 "WHERE email = " + "'" + email + "'";
         cyclingPalDB.execSQL(sqlUpdate);
     }

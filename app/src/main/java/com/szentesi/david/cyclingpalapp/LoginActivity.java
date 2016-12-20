@@ -50,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
                 username = usernameInput.getText().toString();
                 password = passwordInput.getText().toString();
 
+                Bundle bundle = new Bundle();
+
                 cyclingPalDB = openOrCreateDatabase("CyclingPal", MODE_PRIVATE, null);
                 /**********************************************
                 * Need to handle three cases:
@@ -59,24 +61,29 @@ public class LoginActivity extends AppCompatActivity {
                  *********************************************/
                 try {
                      Cursor cursor = cyclingPalDB.rawQuery("select userName, password from registrations", null);
-                     while(cursor.moveToNext()) {
+                    while(cursor.moveToNext()) {
                         if (username.equals(cursor.getString(0)) && password.equals(cursor.getString(1))) {
                             // code for launching first login activity
                             cursor = cyclingPalDB.rawQuery("select firstLogin, email " +
                                     "from registrations " +
                                     "where userName = " + "'" + username + "'" + " and password = " + "'" + password + "'", null);
                             cursor.moveToFirst();
+                            // this is used to pass values between two activities
+                            bundle.putString("emailContainer", cursor.getString(1));
                             if (cursor.getInt(0) == 0) {
-                                Intent intent = new Intent(v.getContext(), FirstLoginActivity.class);
+                                // launching FirstLoginActivity
+                                Intent firstLoginActivityIntent = new Intent(v.getContext(), FirstLoginActivity.class);
                                 // creating bundle that can be called in FirstLoginActivity
-                                Bundle bundle = new Bundle();
-                                bundle.putString("emailContainer", cursor.getString(1));
-                                intent.putExtras(bundle);
-
-                                startActivity(intent);
+                                firstLoginActivityIntent.putExtras(bundle);
+                                startActivity(firstLoginActivityIntent);
                             }
-                            else
-                                // code to launch home screen activity
+                            else if (cursor.getInt(0) == 1) {
+                                // launching HomeScreenActivity
+                                Intent homeScreenActivityIntent = new Intent(v.getContext(), HomeScreenActivity.class);
+                                // creating bundle that can be called in HomeScreenActivity
+                                homeScreenActivityIntent.putExtras(bundle);
+                                startActivity(homeScreenActivityIntent);
+                            }
                                 break;
                         }
                      }

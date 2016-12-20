@@ -61,8 +61,8 @@ public class RegisterActivity extends AppCompatActivity {
         cyclingPalDB.setForeignKeyConstraintsEnabled(true);
         String sqlStatement = "create table if not exists registrations (" +
                 "_id integer primary key autoincrement, " +
-                "userName text not null, " +
-                "email text not null, " +
+                "userName text not null unique, " +
+                "email text not null unique, " +
                 "password text not null, " +
                 "firstLogin integer not null);";
         cyclingPalDB.execSQL(sqlStatement);
