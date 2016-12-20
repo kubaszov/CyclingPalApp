@@ -1,6 +1,7 @@
 package com.szentesi.david.cyclingpalapp;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,6 +20,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String userNameString;
     private String emailString;
     private String passwordString;
+    private Boolean userIsCreated = false;
 
     private SQLiteDatabase cyclingPalDB = null;
 
@@ -49,9 +51,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                 register(userNameString, emailString, passwordString);
 
-                Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                startActivity(intent);
-                Toast.makeText(RegisterActivity.this, R.string.user_creation_toast_prompt, Toast.LENGTH_SHORT).show();
+                if (userIsCreated == true) {
+                    Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(RegisterActivity.this, R.string.user_creation_toast_prompt, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -69,8 +73,19 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void register(String userNameInsert, String emailInsert, String passwordInsert) {
-        String sqlInsert = "INSERT INTO registrations ( userName, email, password, firstLogin ) VALUES (" + "'" + userNameInsert + "', '" + emailInsert + "', '" + passwordInsert + "', '0' )";
-        cyclingPalDB.execSQL(sqlInsert);
+        try {
+            String sqlInsert = "INSERT INTO registrations ( userName, email, password, firstLogin ) VALUES (" + "'" + userNameInsert + "', '" + emailInsert + "', '" + passwordInsert + "', '0' )";
+            cyclingPalDB.execSQL(sqlInsert);
+            userIsCreated = true;
+        } catch (SQLiteConstraintException e) {
+            Toast.makeText(RegisterActivity.this, R.string.duplicate_user_prompt, Toast.LENGTH_SHORT).show();
+            userName.setText("");
+            email.setText("");
+            password.setText("");
+            // return cursor on screen to userName field
+            // http://www.concretepage.com/forum/thread?qid=409
+            userName.requestFocus();
+        }
     }
 
 //    private static boolean doesDatabaseExist(Context context, String dbName) {
