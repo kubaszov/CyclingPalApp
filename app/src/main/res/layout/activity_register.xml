@@ -10,73 +10,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.szentesi.david.cyclingpalapp.RegisterActivity">
 
-    <!--<TextView-->
-        <!--android:text="Cycling Pal"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/appTitle"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:textSize="25dp"/>-->
+    <TextView
+        android:text="Registration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/registrationTextLabel"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp"/>
 
-    <!--<TextView-->
-        <!--android:text="Registration"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/registrationTextLabel"-->
-        <!--android:layout_below="@+id/appTitle"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:textSize="25dp"/>-->
-
-    <!--<TextView-->
-        <!--android:text="First Name"-->
-        <!--android:layout_width="125dp"-->
-        <!--android:layout_height="40dp"-->
-        <!--android:id="@+id/firstNameLabel"-->
-        <!--android:layout_below="@+id/registrationTextLabel"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:textSize="15dp"-->
-        <!--android:paddingTop="20dp"/>-->
-
-    <!--<EditText-->
-        <!--android:layout_width="200dp"-->
-        <!--android:layout_height="40dp"-->
-        <!--android:inputType="textPersonName"-->
-        <!--android:id="@+id/firstName"-->
-        <!--android:hint="First Name"-->
-        <!--android:layout_alignTop="@+id/firstNameLabel"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:textSize="15dp"/>-->
-
-    <!--<TextView-->
-        <!--android:text="Last Name"-->
-        <!--android:layout_width="125dp"-->
-        <!--android:layout_height="40dp"-->
-        <!--android:id="@+id/lastNameLabel"-->
-        <!--android:layout_below="@+id/firstNameLabel"-->
-        <!--android:layout_toLeftOf="@+id/appTitle"-->
-        <!--android:textSize="15dp"-->
-        <!--android:paddingTop="20dp"/>-->
-
-    <!--<EditText-->
-        <!--android:layout_width="200dp"-->
-        <!--android:layout_height="40dp"-->
-        <!--android:inputType="textPersonName"-->
-        <!--android:id="@+id/lastName"-->
-        <!--android:hint="Last Name"-->
-        <!--android:layout_alignTop="@+id/lastNameLabel"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:textSize="15dp" />-->
-
-    <!--android:layout_below="@+id/lastNameLabel"-->
     <TextView
         android:text="User Name"
         android:layout_width="125dp"
         android:layout_height="40dp"
         android:id="@+id/userNameLabel"
-
+        android:layout_below="@+id/registrationTextLabel"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textSize="15dp"

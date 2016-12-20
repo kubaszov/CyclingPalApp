@@ -15,11 +15,13 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText userName;
     private EditText email;
     private EditText password;
+    private EditText confirmPassword;
     private Button registerButton;
 
     private String userNameString;
     private String emailString;
     private String passwordString;
+    private String confirmPasswordString;
     private Boolean userIsCreated = false;
 
     private SQLiteDatabase cyclingPalDB = null;
@@ -32,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
         userName = (EditText)findViewById(R.id.userName);
         email = (EditText)findViewById(R.id.email);
         password = (EditText)findViewById(R.id.password);
+        confirmPassword = (EditText)findViewById(R.id.confirmPassword);
         registerButton = (Button)findViewById(R.id.registerButton);
 
         createDatabase();
@@ -48,13 +51,22 @@ public class RegisterActivity extends AppCompatActivity {
                 userNameString = userName.getText().toString();
                 emailString = email.getText().toString();
                 passwordString = password.getText().toString();
+                confirmPasswordString = confirmPassword.getText().toString();
 
-                register(userNameString, emailString, passwordString);
+                if ( passwordString.equals(confirmPasswordString) ) {
+                    register(userNameString, emailString, passwordString);
 
-                if (userIsCreated == true) {
-                    Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                    startActivity(intent);
-                    Toast.makeText(RegisterActivity.this, R.string.user_creation_toast_prompt, Toast.LENGTH_SHORT).show();
+                    if (userIsCreated == true) {
+                        Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(RegisterActivity.this, R.string.user_creation_toast_prompt, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(RegisterActivity.this, R.string.passwords_do_not_match_toast_prompt, Toast.LENGTH_SHORT).show();
+                    password.setText("");
+                    confirmPassword.setText("");
+                    password.requestFocus();
                 }
             }
         });
@@ -78,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
             cyclingPalDB.execSQL(sqlInsert);
             userIsCreated = true;
         } catch (SQLiteConstraintException e) {
-            Toast.makeText(RegisterActivity.this, R.string.duplicate_user_prompt, Toast.LENGTH_SHORT).show();
+            Toast.makeText(RegisterActivity.this, R.string.duplicate_user_toast_prompt, Toast.LENGTH_SHORT).show();
             userName.setText("");
             email.setText("");
             password.setText("");
