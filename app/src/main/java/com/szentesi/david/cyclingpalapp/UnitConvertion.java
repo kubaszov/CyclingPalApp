@@ -41,4 +41,12 @@ public class UnitConvertion {
         return UnitConvertion.inchesToFeet(UnitConvertion.centimetersToInches(centimeter));
     }
 
+    public static double calculateBMI (int userWeight, int userHeight) {
+        double d = ((double)userWeight / ((double)userHeight * (double)userHeight)) * 10000;
+        // round up double to two decimal places
+        // http://stackoverflow.com/questions/11701399/round-up-to-2-decimal-places-in-java
+        return Math.round(d * 100.0)/ 100.0;
+
+    }
+
 }

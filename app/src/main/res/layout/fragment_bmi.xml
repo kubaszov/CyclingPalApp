@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment1"
-    tools:context="com.szentesi.david.cyclingpalapp.HomeScreenFragment1">
+    tools:context="com.szentesi.david.cyclingpalapp.BMIFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/bmiTextView"
         android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>
