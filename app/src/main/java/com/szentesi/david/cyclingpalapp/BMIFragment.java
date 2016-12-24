@@ -3,6 +3,7 @@ package com.szentesi.david.cyclingpalapp;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+
+import java.util.ArrayList;
+
 public class BMIFragment extends Fragment {
 
     private String userEmail;
@@ -18,6 +26,7 @@ public class BMIFragment extends Fragment {
     private int userWeight;
     private TextView bmiTextView;
     private View bmiFragmentView;
+    private BarChart bmiBarChart;
 
     private SQLiteDatabase cyclingPalDB = null;
 
@@ -44,6 +53,7 @@ public class BMIFragment extends Fragment {
         userEmail = getArguments().getString("emailContainer");
         bmiFragmentView = inflater.inflate(R.layout.fragment_bmi, container, false);
         bmiTextView = (TextView)bmiFragmentView.findViewById(R.id.bmiTextView);
+        bmiBarChart = (BarChart)bmiFragmentView.findViewById(R.id.bmiBarChart);
         userFitnessData();
 
         return bmiFragmentView;
@@ -82,6 +92,25 @@ public class BMIFragment extends Fragment {
         userHeight = cursor.getInt(1);
         double bmi = UnitConvertion.calculateBMI(userWeight, userHeight);
         bmiTextView.setText(String.valueOf(bmi));
+        // creating Bar chart values
+        ArrayList<BarEntry> bmiBarEntries = new ArrayList<>();
+        bmiBarEntries.add(new BarEntry(18f, 0));
+        bmiBarEntries.add(new BarEntry(22f, 1));
+        bmiBarEntries.add(new BarEntry(((float) bmi), 2));
+        bmiBarEntries.add(new BarEntry(26f, 3));
+        // creating Bar chart labels
+        ArrayList<String> chartLabels = new ArrayList<>();
+        chartLabels.add("Skinny Cunt");
+        chartLabels.add("Normal Cunt");
+        chartLabels.add("Actual");
+        chartLabels.add("Fat Cunt");
+        // creating Bar data set
+        BarDataSet bmiBarDataset = new BarDataSet(bmiBarEntries, "BMI Chart");
+        // creating Bar chart colours
+        bmiBarDataset.setColors(new int[] {Color.BLUE, Color.GREEN, Color.YELLOW, Color.RED});
+        BarData bmiBarData = new BarData(chartLabels, bmiBarDataset);
+        bmiBarChart.setData(bmiBarData);
+        bmiBarChart.animateY(1000);
     }
 
 }
