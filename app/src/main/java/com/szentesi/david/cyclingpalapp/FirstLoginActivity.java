@@ -77,6 +77,7 @@ public class FirstLoginActivity extends AppCompatActivity {
                 Intent homeScreenActivityIntent = new Intent(v.getContext(), HomeScreenActivity.class);
                 homeScreenActivityIntent.putExtras(bundle);
                 startActivity(homeScreenActivityIntent);
+                finish();
             }
         });
     }

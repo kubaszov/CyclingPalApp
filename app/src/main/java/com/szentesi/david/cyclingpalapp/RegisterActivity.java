@@ -59,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if (userIsCreated == true) {
                         Intent intent = new Intent(view.getContext(), LoginActivity.class);
                         startActivity(intent);
+                        finish();
                         Toast.makeText(RegisterActivity.this, R.string.user_creation_toast_prompt, Toast.LENGTH_SHORT).show();
                     }
                 }

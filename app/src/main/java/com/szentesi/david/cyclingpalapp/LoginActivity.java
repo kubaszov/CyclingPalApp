@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                                 // creating bundle that can be called in FirstLoginActivity
                                 firstLoginActivityIntent.putExtras(bundle);
                                 startActivity(firstLoginActivityIntent);
+                                finish();
                             }
                             else if (cursor.getInt(0) == 1) {
                                 // launching HomeScreenActivity
@@ -83,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                                 // creating bundle that can be called in HomeScreenActivity
                                 homeScreenActivityIntent.putExtras(bundle);
                                 startActivity(homeScreenActivityIntent);
+                                finish();
                             }
                                 break;
                         } else {
@@ -113,5 +115,6 @@ public class LoginActivity extends AppCompatActivity {
     private void launchRegistrationActivity(View v) {
         Intent intent = new Intent(v.getContext(), RegisterActivity.class);
         startActivity(intent);
+        finish();
     }
 }
