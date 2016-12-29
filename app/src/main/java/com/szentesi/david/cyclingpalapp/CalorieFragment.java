@@ -1,14 +1,27 @@
 package com.szentesi.david.cyclingpalapp;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class CalorieFragment extends Fragment {
+
+    private String userEmail;
+    private String userGender;
+    private int userHeight;
+    private int userWeight;
+    private int userAge;
+    private TextView userCalorieTextView;
+    private View calorieFragmentView;
+
+    private SQLiteDatabase cyclingPalDB = null;
 
     private OnFragmentInteractionListener mListener;
 
@@ -29,8 +42,12 @@ public class CalorieFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        userEmail = getArguments().getString("emailContainer");
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calorie, container, false);
+        calorieFragmentView = inflater.inflate(R.layout.fragment_calorie, container, false);
+        userCalorieTextView = (TextView)calorieFragmentView.findViewById(R.id.userCalorieTextView);
+        calculateInitialCaloriIntake();
+        return calorieFragmentView;
     }
 
     public void onButtonPressed(Uri uri) {
@@ -58,5 +75,21 @@ public class CalorieFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void calculateInitialCaloriIntake() {
+        cyclingPalDB = getActivity().openOrCreateDatabase("CyclingPal", Context.MODE_PRIVATE, null);
+        Cursor cursor = cyclingPalDB.rawQuery("select weight, height, sex, age " +
+                "from userFitnessInfo " +
+                "where email = " + "'" + userEmail + "'", null);
+        // setting cursor to the first value of our results
+        cursor.moveToFirst();
+        // getting values in order of cursor index from the database
+        int weight = cursor.getInt(0);
+        int height = cursor.getInt(1);
+        String sex = cursor.getString(2);
+        int age = cursor.getInt(3);
+        double calorie = UnitConvertion.calculateInitialCaloriIntake(age, weight, height, sex);
+        userCalorieTextView.setText(String.valueOf(calorie));
     }
 }

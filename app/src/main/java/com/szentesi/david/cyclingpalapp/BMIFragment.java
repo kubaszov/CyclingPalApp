@@ -54,7 +54,7 @@ public class BMIFragment extends Fragment {
         bmiFragmentView = inflater.inflate(R.layout.fragment_bmi, container, false);
         bmiTextView = (TextView)bmiFragmentView.findViewById(R.id.bmiTextView);
         bmiBarChart = (BarChart)bmiFragmentView.findViewById(R.id.bmiBarChart);
-        userFitnessData();
+        userBMIData();
 
         return bmiFragmentView;
     }
@@ -80,7 +80,7 @@ public class BMIFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void userFitnessData() {
+    private void userBMIData() {
         // on how to open DB in fragment
         // http://stackoverflow.com/questions/24511031/openorcreatedatabase-undefined-in-the-fragment-class
         cyclingPalDB = getActivity().openOrCreateDatabase("CyclingPal", Context.MODE_PRIVATE, null);
@@ -100,10 +100,10 @@ public class BMIFragment extends Fragment {
         bmiBarEntries.add(new BarEntry(26f, 3));
         // creating Bar chart labels
         ArrayList<String> chartLabels = new ArrayList<>();
-        chartLabels.add("Skinny Cunt");
-        chartLabels.add("Normal Cunt");
+        chartLabels.add("Underweight");
+        chartLabels.add("Normal");
         chartLabels.add("Actual");
-        chartLabels.add("Fat Cunt");
+        chartLabels.add("Overweight");
         // creating Bar data set
         BarDataSet bmiBarDataset = new BarDataSet(bmiBarEntries, "BMI Chart");
         // creating Bar chart colours

@@ -49,4 +49,15 @@ public class UnitConvertion {
 
     }
 
+    public static double calculateInitialCaloriIntake(int userAge, int userWeight, int userHeight, String userGender) {
+        double calories = 0.0;
+        if(userGender.equals("Male")) {
+            calories = (10 * userWeight) + (6.25 * userHeight) - (5 * userAge) + 5;
+        }
+        else if (userGender.equals("Female")){
+            calories = (10 * userWeight) + (6.25 * userHeight) - (5 * userAge) - 161;
+        }
+        return calories;
+    }
+
 }

@@ -80,7 +80,10 @@ public class HomeScreenActivity extends AppCompatActivity implements
                 return bmiFragment;
             }
             else {
-                return new CalorieFragment();
+                CalorieFragment calorieFragment = new CalorieFragment();
+                bundle = getIntent().getExtras();
+                calorieFragment.setArguments(bundle);
+                return calorieFragment;
             }
         }
 
