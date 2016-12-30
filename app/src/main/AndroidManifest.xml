@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.szentesi.david.cyclingpalapp.LoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,9 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.szentesi.david.cyclingpalapp.RegisterActivity" />
-        <activity android:name="com.szentesi.david.cyclingpalapp.FirstLoginActivity" />
-        <activity android:name="com.szentesi.david.cyclingpalapp.HomeScreenActivity"></activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".FirstLoginActivity" />
+        <activity android:name=".HomeScreenActivity" />
+        <activity android:name=".RecordWeight"></activity>
     </application>
 
 </manifest>

@@ -10,4 +10,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CyclingAppTextStyle">
+        <item name="android:textColor">@color/steelBlue</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:padding">@dimen/activity_vertical_margin</item>
+    </style>
+
+    <style name="UserPromptTextStyle">
+        <item name="android:textColor">@color/primaryBlack</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:padding">@dimen/activity_vertical_margin</item>
+    </style>
+
 </resources>

@@ -56,7 +56,7 @@ public class FirstLoginActivity extends AppCompatActivity {
 
         cyclingPalDB = openOrCreateDatabase("CyclingPal", MODE_PRIVATE, null);
 
-        initialiseUsersPersonalDatabase();
+        initialiseUserFitnessInfoTable();
         parseUserFitnessInfo();
     }
 
@@ -72,7 +72,7 @@ public class FirstLoginActivity extends AppCompatActivity {
                 // http://stackoverflow.com/questions/10331854/how-to-get-spinner-selected-item-value-to-string
                 userSexString = userSexSpinner.getSelectedItem().toString();
 
-                populateUsersPersonalDatabase(userAgeInt, userWeightInt, userHeightInt, userSexString);
+                populateUserFitnessInfoTable(userAgeInt, userWeightInt, userHeightInt, userSexString);
                 updateFirstLogin(emailContainer);
                 Intent homeScreenActivityIntent = new Intent(v.getContext(), HomeScreenActivity.class);
                 homeScreenActivityIntent.putExtras(bundle);
@@ -82,7 +82,7 @@ public class FirstLoginActivity extends AppCompatActivity {
         });
     }
 
-    private void initialiseUsersPersonalDatabase() {
+    private void initialiseUserFitnessInfoTable() {
 
         String sqlStatement = "create table if not exists userFitnessInfo(" +
                 "age integer not null, " +
@@ -94,12 +94,14 @@ public class FirstLoginActivity extends AppCompatActivity {
         cyclingPalDB.execSQL(sqlStatement);
     }
 
-    private void populateUsersPersonalDatabase( int ageInt, int weightInt, int heightInt, String sexText ) {
+
+    private void populateUserFitnessInfoTable(int ageInt, int weightInt, int heightInt, String sexText ) {
 
         String sqlInsert = "INSERT INTO userFitnessInfo ( age, weight, height, sex, email ) " +
                 "VALUES ( " + "'" + ageInt + "', '" + weightInt + "', '" + heightInt + "', '" + sexText + "', '" + emailContainer + "')";
         cyclingPalDB.execSQL(sqlInsert);
     }
+
 
     // method to set firstLogin value to 1 after entering FirstLoginActivity
     private void updateFirstLogin(String email) {

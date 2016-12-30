@@ -7,20 +7,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/activity_vertical_margin"
-        android:textSize="20dp"
         android:textAlignment="center"
-        android:textStyle="bold"
         android:text="@string/user_base_calorie_message"
-        android:id="@+id/calorieMessageTextView"/>
+        android:id="@+id/calorieMessageTextView"
+        style="@style/UserPromptTextStyle"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="20dp"
         android:textAlignment="center"
-        android:textStyle="bold"
         android:layout_below="@+id/calorieMessageTextView"
-        android:id="@+id/userCalorieTextView"/>
+        android:id="@+id/userCalorieTextView"
+        style="@style/CyclingAppTextStyle"/>
 
 </RelativeLayout>

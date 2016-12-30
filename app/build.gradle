@@ -29,7 +29,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support:support-v4:25.0.1'
     testCompile 'junit:junit:4.12'
+    // debug SQLite library using web browser
     debugCompile 'com.amitshekhar.android:debug-db:0.4.0'
+    // extra UI components to use tabs
     compile 'com.android.support:design:+'
+    // chart library
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
+    // circular floating action menu
+    compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
 }

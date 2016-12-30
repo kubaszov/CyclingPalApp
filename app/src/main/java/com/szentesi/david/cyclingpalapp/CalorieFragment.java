@@ -14,10 +14,6 @@ import android.widget.TextView;
 public class CalorieFragment extends Fragment {
 
     private String userEmail;
-    private String userGender;
-    private int userHeight;
-    private int userWeight;
-    private int userAge;
     private TextView userCalorieTextView;
     private View calorieFragmentView;
 

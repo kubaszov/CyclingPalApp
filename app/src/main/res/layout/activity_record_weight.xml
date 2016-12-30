@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_record_weight"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.szentesi.david.cyclingpalapp.RecordWeight">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="?attr/actionBarTheme"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:id="@+id/recordWeightToolbar"/>
+
+    <LinearLayout
+        android:layout_below="@+id/recordWeightToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/weightEntryLayout">
+
+    <TextView
+        android:text="Weight (kg)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/recordWeightTextView"
+        style="@style/UserPromptTextStyle"/>
+
+    <EditText
+        android:gravity="end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="numberDecimal"
+        android:id="@+id/enterWeightEditText"
+        style="@style/CyclingAppTextStyle"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/weightEntryLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateDisplayLayout">
+
+    <TextView
+        android:text="Current Date: "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recordWeightTextView"
+        android:layout_weight="1"
+        android:id="@+id/currentDateTextView"
+        style="@style/UserPromptTextStyle"/>
+
+    <TextView
+        android:gravity="end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/currentDateValueTextView"
+        style="@style/CyclingAppTextStyle"/>
+
+    </LinearLayout>
+
+    <Button
+        android:text="Record Weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:id="@+id/recordWeightButton"/>
+
+</RelativeLayout>
