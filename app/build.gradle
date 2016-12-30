@@ -26,15 +26,15 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    // debug SQLite library using web browser
+    // extra UI components to use tabs
+    // chart library
+    // circular floating action menu
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support:support-v4:25.0.1'
-    testCompile 'junit:junit:4.12'
-    // debug SQLite library using web browser
-    debugCompile 'com.amitshekhar.android:debug-db:0.4.0'
-    // extra UI components to use tabs
-    compile 'com.android.support:design:+'
-    // chart library
+    compile 'com.android.support:design:25.0.1'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
-    // circular floating action menu
     compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
+    testCompile 'junit:junit:4.12'
+    debugCompile 'com.amitshekhar.android:debug-db:0.4.0'
 }

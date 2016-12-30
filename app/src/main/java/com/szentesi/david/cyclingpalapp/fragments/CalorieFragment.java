@@ -1,4 +1,4 @@
-package com.szentesi.david.cyclingpalapp;
+package com.szentesi.david.cyclingpalapp.fragments;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.szentesi.david.cyclingpalapp.R;
+import com.szentesi.david.cyclingpalapp.helpers.UnitConvertion;
 
 public class CalorieFragment extends Fragment {
 

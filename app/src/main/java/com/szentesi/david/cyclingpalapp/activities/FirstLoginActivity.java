@@ -1,4 +1,4 @@
-package com.szentesi.david.cyclingpalapp;
+package com.szentesi.david.cyclingpalapp.activities;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.szentesi.david.cyclingpalapp.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.szentesi.david.cyclingpalapp;
+package com.szentesi.david.cyclingpalapp.fragments;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -16,6 +16,8 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.szentesi.david.cyclingpalapp.R;
+import com.szentesi.david.cyclingpalapp.helpers.UnitConvertion;
 
 import java.util.ArrayList;
 

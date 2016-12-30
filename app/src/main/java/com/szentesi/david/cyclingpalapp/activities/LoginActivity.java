@@ -1,6 +1,7 @@
-package com.szentesi.david.cyclingpalapp;
+package com.szentesi.david.cyclingpalapp.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -13,19 +14,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.szentesi.david.cyclingpalapp.R;
+
 
 public class LoginActivity extends AppCompatActivity {
 
     private Button loginButton;
     private Button registerButton;
-
     private EditText usernameInput;
     private EditText passwordInput;
-
     private String username;
     private String password;
 
     private SQLiteDatabase cyclingPalDB = null;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     TextView loginAttempts;
     int counter = 3;
@@ -33,12 +36,14 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
+        // initialise sharedPreferences to this app's database
+        sharedPreferences = this.getSharedPreferences(getApplicationContext().getPackageName(), MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         loginButton = (Button)findViewById(R.id.loginButton);
         usernameInput = (EditText)findViewById(R.id.userNameEditText);
         passwordInput = (EditText)findViewById(R.id.passwordEditText);
-
         registerButton = (Button)findViewById(R.id.registerButton);
         loginAttempts = (TextView)findViewById(R.id.attemptsCounterTextView);
         loginAttempts.setVisibility(View.GONE);
@@ -70,6 +75,9 @@ public class LoginActivity extends AppCompatActivity {
                             cursor.moveToFirst();
                             // this is used to pass values between two activities
                             bundle.putString("emailContainer", cursor.getString(1));
+                            // writing user email into Shared Preferences DB
+                            editor.putString("emailContainer", cursor.getString(1));
+                            editor.commit();
                             if (cursor.getInt(0) == 0) {
                                 // launching FirstLoginActivity
                                 Intent firstLoginActivityIntent = new Intent(v.getContext(), FirstLoginActivity.class);

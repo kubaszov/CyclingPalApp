@@ -4,7 +4,7 @@
     android:id="@+id/activity_record_weight"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.szentesi.david.cyclingpalapp.RecordWeight">
+    tools:context="com.szentesi.david.cyclingpalapp.activities.RecordWeightActivity">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"

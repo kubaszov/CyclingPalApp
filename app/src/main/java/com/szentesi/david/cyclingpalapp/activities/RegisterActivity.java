@@ -1,4 +1,4 @@
-package com.szentesi.david.cyclingpalapp;
+package com.szentesi.david.cyclingpalapp.activities;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.szentesi.david.cyclingpalapp.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

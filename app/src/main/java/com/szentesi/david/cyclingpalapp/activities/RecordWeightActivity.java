@@ -1,4 +1,4 @@
-package com.szentesi.david.cyclingpalapp;
+package com.szentesi.david.cyclingpalapp.activities;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -10,11 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.szentesi.david.cyclingpalapp.R;
 
 import java.util.Date;
 import java.util.Locale;
 
-public class RecordWeight extends AppCompatActivity {
+public class RecordWeightActivity extends AppCompatActivity {
 
     private EditText userWeight;
     private TextView currentDateTextView;
@@ -74,6 +77,8 @@ public class RecordWeight extends AppCompatActivity {
                 // take the value of userWeight EditText and convert it to an integer
                 userWeightEntry = Integer.parseInt(userWeight.getText().toString());
                 populateUserWeightRecordTable(userWeightEntry);
+                finish();
+                Toast.makeText(view.getContext(), R.string.user_weight_record, Toast.LENGTH_LONG).show();
             }
         });
     }

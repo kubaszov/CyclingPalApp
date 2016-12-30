@@ -1,25 +1,28 @@
-package com.szentesi.david.cyclingpalapp;
+package com.szentesi.david.cyclingpalapp.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.SubMenuBuilder;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
+import com.szentesi.david.cyclingpalapp.fragments.BMIFragment;
+import com.szentesi.david.cyclingpalapp.fragments.CalorieFragment;
+import com.szentesi.david.cyclingpalapp.R;
 
 // to implement fragment need to do the following
 // http://stackoverflow.com/questions/24777985/how-to-implement-onfragmentinteractionlistener
@@ -36,9 +39,6 @@ public class HomeScreenActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        // TODO: 29/12/2016  for later if have time
-        //SharedPreferences sharedPreferences = null;
-        //SharedPreferences.Editor = sharedPreferences.edit();
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         // naming the Tabs
         tabLayout.addTab(tabLayout.newTab().setText("BMI"));
@@ -112,6 +112,7 @@ public class HomeScreenActivity extends AppCompatActivity implements
         ImageView floatingMenuIcon = new ImageView(this);
         floatingMenuIcon.setImageResource(R.drawable.ic_action_new);
         int floatingMenuSize = getResources().getDimensionPixelSize(R.dimen.floating_action_button_size);
+        int floatingMenuIconSize = getResources().getDimensionPixelSize(R.dimen.floating_action_menu_button_size);
         // adding a layout to the button which allows us to put an image on top of it
         com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.LayoutParams floatingMenuLayout =
                 new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.LayoutParams(floatingMenuSize, floatingMenuSize);
@@ -127,6 +128,8 @@ public class HomeScreenActivity extends AppCompatActivity implements
         // creating the sub-menu of the action button
         SubActionButton.Builder subMenuBuilder = new SubActionButton.Builder(this);
         subMenuBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_action_red));
+        FrameLayout.LayoutParams menuLayout = new FrameLayout.LayoutParams(floatingMenuIconSize, floatingMenuIconSize);
+        subMenuBuilder.setLayoutParams(menuLayout);
         ImageView weightIcon = new ImageView(this);
         ImageView logOutIcon = new ImageView(this);
         // setting sub-menu icons
@@ -145,11 +148,44 @@ public class HomeScreenActivity extends AppCompatActivity implements
         weightIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), RecordWeight.class);
+                Intent intent = new Intent(view.getContext(), RecordWeightActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 floatingActionHomeMenu.close(true);
             }
         });
+        logOutIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(view.getContext())
+                        .setTitle("Logout")
+                        .setMessage("Are you sure?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // initialise shared preferences for the app
+                                SharedPreferences sharedPreferences = getSharedPreferences(getApplicationContext().getPackageName(), MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                // removes user email from shared preferences upon logout
+                                editor.remove("emailContainer");
+                                editor.commit();
+                                // creating new intent to go to login screen
+                                Intent intent = new Intent(HomeScreenActivity.this, LoginActivity.class);
+                                // using above intent
+                                startActivity(intent);
+                                // removing this activity from the backstack
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .show();
+            }
+        });
+
     }
 }

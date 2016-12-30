@@ -1,4 +1,4 @@
-package com.szentesi.david.cyclingpalapp;
+package com.szentesi.david.cyclingpalapp.helpers;
 
 /**
  * Created by David Szentesi on 15/12/2016.
