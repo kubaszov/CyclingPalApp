@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
@@ -23,26 +25,43 @@ import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.szentesi.david.cyclingpalapp.fragments.BMIFragment;
 import com.szentesi.david.cyclingpalapp.fragments.CalorieFragment;
 import com.szentesi.david.cyclingpalapp.R;
+import com.szentesi.david.cyclingpalapp.fragments.ProgressFragment;
+
+import java.util.Date;
+import java.util.Locale;
 
 // to implement fragment need to do the following
 // http://stackoverflow.com/questions/24777985/how-to-implement-onfragmentinteractionlistener
 public class HomeScreenActivity extends AppCompatActivity implements
-        BMIFragment.OnFragmentInteractionListener, CalorieFragment.OnFragmentInteractionListener {
+        BMIFragment.OnFragmentInteractionListener,
+        CalorieFragment.OnFragmentInteractionListener,
+        ProgressFragment.OnFragmentInteractionListener {
 
     private Bundle bundle;
-    private static int NUMBER_OF_FRAGMENTS = 2;
+    private static int NUMBER_OF_FRAGMENTS = 3;
     private ViewPager homeScreenViewPager;
     private PagerAdapter pa;
     private TabLayout tabLayout;
+    private String email;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+        sharedPreferences = this.getSharedPreferences(getApplicationContext().getPackageName(), MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        email = sharedPreferences.getString("emailContainer", null);
+        bundle = getIntent().getExtras();
+        bundle.putString("emailContainer", email);
+        initialiseUserWeightRecordTable();
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         // naming the Tabs
         tabLayout.addTab(tabLayout.newTab().setText("BMI"));
         tabLayout.addTab(tabLayout.newTab().setText("Calories"));
+        tabLayout.addTab(tabLayout.newTab().setText("Progress"));
         // adding colour to the Tabs
         tabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         tabLayout.setTabTextColors(Color.BLACK, Color.WHITE);
@@ -93,12 +112,19 @@ public class HomeScreenActivity extends AppCompatActivity implements
                 bmiFragment.setArguments(bundle);
                 return bmiFragment;
             }
-            else {
+            else if (position == 1) {
                 CalorieFragment calorieFragment = new CalorieFragment();
                 bundle = getIntent().getExtras();
                 calorieFragment.setArguments(bundle);
                 return calorieFragment;
             }
+            else if (position == 2) {
+                ProgressFragment progressFragment = new ProgressFragment();
+                bundle = getIntent().getExtras();
+                progressFragment.setArguments(bundle);
+                return progressFragment;
+            }
+            return null;
         }
 
         @Override
@@ -188,4 +214,24 @@ public class HomeScreenActivity extends AppCompatActivity implements
         });
 
     }
+            private void initialiseUserWeightRecordTable() {
+                String sqlStatement = "create table if not exists userWeightRecord(" +
+                        "weight integer not null, " +
+                        "date text not null, " +
+                        "weightSubmitted integer not null, " +
+                        "email text not null," +
+                        "unique ( date ) " +
+                        "FOREIGN KEY (email) REFERENCES registrations(email));";
+                SQLiteDatabase cyclingPalDB = openOrCreateDatabase("CyclingPal", MODE_PRIVATE, null);
+                cyclingPalDB.execSQL(sqlStatement);
+                String sqlSelect = "select weight from userFitnessInfo where email = '" + email + "'";
+                Cursor cursor = cyclingPalDB.rawQuery(sqlSelect, null);
+                cursor.moveToFirst();
+                int weight = cursor.getInt(0);
+                java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                String myDate = dateFormat.format(new Date());
+                String sqlInsert = "INSERT INTO userWeightRecord (weight, date, weightSubmitted, email)" +
+                        "VALUES ( " + "'" + weight + "','" +  myDate + "','1'" + ",'" + email + "')";
+                cyclingPalDB.execSQL(sqlInsert);
+            }
 }

@@ -7,4 +7,6 @@
     <string name="passwords_do_not_match_toast_prompt">Passwords do not match</string>
     <string name="user_base_calorie_message">Your base calorie value is: </string>
     <string name="user_weight_record">Your weight has been submitted successfully</string>
+    <string name="duplicate_user_weight_record">Your weight has already been submitted</string>
+
 </resources>

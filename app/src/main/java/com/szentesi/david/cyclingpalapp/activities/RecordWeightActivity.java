@@ -1,5 +1,6 @@
 package com.szentesi.david.cyclingpalapp.activities;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -69,28 +70,29 @@ public class RecordWeightActivity extends AppCompatActivity {
         });
 
         cyclingPalDB = openOrCreateDatabase("CyclingPal", MODE_PRIVATE, null);
-        initialiseUserWeightRecordTable();
 
         submitWeight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                String myDate = dateFormat.format(new Date());
+                String sqlSelect = "select weightSubmitted " +
+                        "from userWeightRecord " +
+                        "where date = '" + myDate + "'";
+                Cursor cursor = cyclingPalDB.rawQuery(sqlSelect, null);
+                int weightSubmitted = cursor.getInt(0);
                 // take the value of userWeight EditText and convert it to an integer
                 userWeightEntry = Integer.parseInt(userWeight.getText().toString());
-                populateUserWeightRecordTable(userWeightEntry);
-                finish();
-                Toast.makeText(view.getContext(), R.string.user_weight_record, Toast.LENGTH_LONG).show();
+                if (userWeightEntry == 0) {
+                    populateUserWeightRecordTable(userWeightEntry);
+                    finish();
+                    Toast.makeText(view.getContext(), R.string.user_weight_record, Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(view.getContext(), R.string.duplicate_user_weight_record, Toast.LENGTH_LONG).show();
+                }
             }
         });
-    }
-
-    private void initialiseUserWeightRecordTable() {
-        String sqlStatement = "create table if not exists userWeightRecord(" +
-                "weight integer not null, " +
-                "date text not null, " +
-                "weightSubmitted integer not null, " +
-                "email text not null, " +
-                "FOREIGN KEY (email) REFERENCES registrations(email));";
-        cyclingPalDB.execSQL(sqlStatement);
     }
 
     private void populateUserWeightRecordTable(int userWeightParam) {
