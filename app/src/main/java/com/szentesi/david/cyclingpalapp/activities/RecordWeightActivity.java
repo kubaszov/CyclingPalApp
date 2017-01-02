@@ -1,5 +1,6 @@
 package com.szentesi.david.cyclingpalapp.activities;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -85,6 +86,7 @@ public class RecordWeightActivity extends AppCompatActivity {
                 userWeightEntry = Integer.parseInt(userWeight.getText().toString());
                 if (userWeightEntry == 0) {
                     populateUserWeightRecordTable(userWeightEntry);
+                    startActivity(new Intent(view.getContext(), HomeScreenActivity.class));
                     finish();
                     Toast.makeText(view.getContext(), R.string.user_weight_record, Toast.LENGTH_LONG).show();
                 }

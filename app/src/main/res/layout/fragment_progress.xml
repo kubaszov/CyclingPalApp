@@ -4,9 +4,25 @@
     android:layout_height="match_parent"
     tools:context="com.szentesi.david.cyclingpalapp.fragments.ProgressFragment">
 
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/weightTimeSpinner"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/activity_vertical_margin"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:id="@+id/refresh_weight_graph"
+        android:text="Refresh"
+        android:layout_toRightOf="@id/weightTimeSpinner"
+        android:layout_height="wrap_content" />
+
+
     <com.github.mikephil.charting.charts.LineChart
         android:layout_width="match_parent"
+        android:layout_below="@id/weightTimeSpinner"
         android:layout_height="match_parent"
+        android:padding="@dimen/activity_vertical_margin"
         android:id="@+id/progressLineChart"/>
 
 </RelativeLayout>

@@ -1,5 +1,7 @@
 package com.szentesi.david.cyclingpalapp.activities;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -56,7 +58,10 @@ public class HomeScreenActivity extends AppCompatActivity implements
         email = sharedPreferences.getString("emailContainer", null);
         bundle = getIntent().getExtras();
         bundle.putString("emailContainer", email);
-        initialiseUserWeightRecordTable();
+        // if userWeightTable already has been initialised on the first run
+        if(sharedPreferences.getAll().size() < 0) {
+            initialiseUserWeightRecordTable();
+        }
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         // naming the Tabs
         tabLayout.addTab(tabLayout.newTab().setText("BMI"));
@@ -135,7 +140,7 @@ public class HomeScreenActivity extends AppCompatActivity implements
 
     private void floatingActionMenu(Context context) {
         // creating floating menu icon
-        ImageView floatingMenuIcon = new ImageView(this);
+        final ImageView floatingMenuIcon = new ImageView(this);
         floatingMenuIcon.setImageResource(R.drawable.ic_action_new);
         int floatingMenuSize = getResources().getDimensionPixelSize(R.dimen.floating_action_button_size);
         int floatingMenuIconSize = getResources().getDimensionPixelSize(R.dimen.floating_action_menu_button_size);
@@ -163,11 +168,11 @@ public class HomeScreenActivity extends AppCompatActivity implements
         logOutIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_important));
         // adding the two buttons to our sub-menu
         final FloatingActionMenu floatingActionHomeMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(subMenuBuilder.setContentView(logOutIcon).build())
                 .addSubActionView(subMenuBuilder
                         .setContentView(weightIcon)
                         .setBackgroundDrawable(getResources()
-                        .getDrawable(R.drawable.button_action_yellow)).build())
-                .addSubActionView(subMenuBuilder.setContentView(logOutIcon).build())
+                                .getDrawable(R.drawable.button_action_yellow)).build())
                 .attachTo(floatingActionButton)
                 .build();
         // adding listener to weight icon
@@ -178,8 +183,10 @@ public class HomeScreenActivity extends AppCompatActivity implements
                 intent.putExtras(bundle);
                 startActivity(intent);
                 floatingActionHomeMenu.close(true);
+                finish();
             }
         });
+        // logout button listener
         logOutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -212,7 +219,24 @@ public class HomeScreenActivity extends AppCompatActivity implements
                         .show();
             }
         });
+        // Setting animation on floating action button
+        floatingActionHomeMenu.setStateChangeListener(new FloatingActionMenu.MenuStateChangeListener() {
+            @Override
+            public void onMenuOpened(FloatingActionMenu floatingActionMenu) {
+                floatingMenuIcon.setRotation(0);
+                PropertyValuesHolder pvhR = PropertyValuesHolder.ofFloat(View.ROTATION, 45);
+                ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(floatingActionButton, pvhR);
+                animation.start();
+            }
 
+            @Override
+            public void onMenuClosed(FloatingActionMenu floatingActionMenu) {
+                floatingActionButton.setRotation(0);
+                PropertyValuesHolder pvhR = PropertyValuesHolder.ofFloat(View.ROTATION, 45);
+                ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(floatingActionButton, pvhR);
+                animation.start();
+            }
+        });
     }
             private void initialiseUserWeightRecordTable() {
                 String sqlStatement = "create table if not exists userWeightRecord(" +

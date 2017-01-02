@@ -112,6 +112,7 @@ public class BMIFragment extends Fragment {
         bmiBarDataset.setColors(new int[] {Color.BLUE, Color.GREEN, Color.YELLOW, Color.RED});
         BarData bmiBarData = new BarData(chartLabels, bmiBarDataset);
         bmiBarChart.setData(bmiBarData);
+        bmiBarChart.setClickable(false);
         bmiBarChart.animateY(1000);
     }
 
