@@ -1,17 +1,21 @@
 package com.szentesi.david.cyclingpalapp.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.szentesi.david.cyclingpalapp.R;
+import com.szentesi.david.cyclingpalapp.helpers.MyDateFormatter;
 import com.szentesi.david.cyclingpalapp.helpers.UnitConvertion;
 
 public class CalorieFragment extends Fragment {
@@ -21,6 +25,7 @@ public class CalorieFragment extends Fragment {
     private View calorieFragmentView;
 
     private SQLiteDatabase cyclingPalDB = null;
+    private SharedPreferences sharedPreferences;
 
     private OnFragmentInteractionListener mListener;
 
@@ -28,7 +33,7 @@ public class CalorieFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static CalorieFragment newInstance(String param1, String param2) {
+    public static CalorieFragment newInstance() {
         CalorieFragment fragment = new CalorieFragment();
         return fragment;
     }
@@ -41,9 +46,11 @@ public class CalorieFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        userEmail = getArguments().getString("emailContainer");
         // Inflate the layout for this fragment
         calorieFragmentView = inflater.inflate(R.layout.fragment_calorie, container, false);
+        Context context = calorieFragmentView.getContext();
+        sharedPreferences = context.getSharedPreferences(context.getPackageName(), context.MODE_PRIVATE);
+        userEmail = sharedPreferences.getString("emailContainer", null);
         userCalorieTextView = (TextView)calorieFragmentView.findViewById(R.id.userCalorieTextView);
         calculateInitialCaloriIntake();
         return calorieFragmentView;
@@ -77,6 +84,7 @@ public class CalorieFragment extends Fragment {
     }
 
     private void calculateInitialCaloriIntake() {
+        String date = MyDateFormatter.retrieveDateFormat();
         cyclingPalDB = getActivity().openOrCreateDatabase("CyclingPal", Context.MODE_PRIVATE, null);
         Cursor cursor = cyclingPalDB.rawQuery("select weight, height, sex, age " +
                 "from userFitnessInfo " +
@@ -88,6 +96,20 @@ public class CalorieFragment extends Fragment {
         int height = cursor.getInt(1);
         String sex = cursor.getString(2);
         int age = cursor.getInt(3);
+        //If weight has been updated
+        String sqlIfUSerWeightRecordExists = "SELECT weight FROM userWeightRecord " +
+                "WHERE email = '" + userEmail + "' " +
+                "AND date = '" + date + "'";
+        try {
+            cursor = cyclingPalDB.rawQuery(sqlIfUSerWeightRecordExists, null);
+            cursor.moveToFirst();
+            if (cursor.getCount() != 0) {
+                // todo sort whether weight is a double or int
+                weight = cursor.getInt(0);
+            }
+        } catch (SQLiteException e) {
+            Log.e("CALORIEFRAGMENT" , e.getMessage());
+        }
         double calorie = UnitConvertion.calculateInitialCaloriIntake(age, weight, height, sex);
         userCalorieTextView.setText(String.valueOf(calorie));
     }

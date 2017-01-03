@@ -28,9 +28,9 @@ import com.szentesi.david.cyclingpalapp.fragments.BMIFragment;
 import com.szentesi.david.cyclingpalapp.fragments.CalorieFragment;
 import com.szentesi.david.cyclingpalapp.R;
 import com.szentesi.david.cyclingpalapp.fragments.ProgressFragment;
+import com.szentesi.david.cyclingpalapp.helpers.MyDateFormatter;
 
 import java.util.Date;
-import java.util.Locale;
 
 // to implement fragment need to do the following
 // http://stackoverflow.com/questions/24777985/how-to-implement-onfragmentinteractionlistener
@@ -47,21 +47,24 @@ public class HomeScreenActivity extends AppCompatActivity implements
     private String email;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private SQLiteDatabase cyclingPalDB = null;
+    private String myDate;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        cyclingPalDB = openOrCreateDatabase("CyclingPal", MODE_PRIVATE, null);
+        myDate = MyDateFormatter.retrieveDateFormat();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
         sharedPreferences = this.getSharedPreferences(getApplicationContext().getPackageName(), MODE_PRIVATE);
         editor = sharedPreferences.edit();
         email = sharedPreferences.getString("emailContainer", null);
         bundle = getIntent().getExtras();
-        bundle.putString("emailContainer", email);
-        // if userWeightTable already has been initialised on the first run
-        if(sharedPreferences.getAll().size() < 0) {
-            initialiseUserWeightRecordTable();
+        if(getIntent().getExtras() == null) {
+            bundle = new Bundle();
         }
+        bundle.putString("emailContainer", email);
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         // naming the Tabs
         tabLayout.addTab(tabLayout.newTab().setText("BMI"));
@@ -112,21 +115,22 @@ public class HomeScreenActivity extends AppCompatActivity implements
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                BMIFragment bmiFragment = new BMIFragment();
+                BMIFragment bmiFragment = BMIFragment.newInstance();
                 bundle = getIntent().getExtras();
                 bmiFragment.setArguments(bundle);
                 return bmiFragment;
             }
             else if (position == 1) {
                 CalorieFragment calorieFragment = new CalorieFragment();
-                bundle = getIntent().getExtras();
-                calorieFragment.setArguments(bundle);
                 return calorieFragment;
             }
             else if (position == 2) {
+                createUserWeightRecordTable();
+                // if userWeightTable already has been initialised on the first run
+                if(sharedPreferences.getAll().size() < 0) {
+                    initialiseUserWeightRecordTable();
+                }
                 ProgressFragment progressFragment = new ProgressFragment();
-                bundle = getIntent().getExtras();
-                progressFragment.setArguments(bundle);
                 return progressFragment;
             }
             return null;
@@ -153,12 +157,12 @@ public class HomeScreenActivity extends AppCompatActivity implements
         final com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton floatingActionButton =
                 new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.Builder(this)
                         .setContentView(floatingMenuIcon)
-                        .setBackgroundDrawable(R.drawable.button_action_blue)
+                        .setBackgroundDrawable(R.drawable.blue_selector)
                         .setLayoutParams(floatingMenuLayout)
                         .build();
         // creating the sub-menu of the action button
         SubActionButton.Builder subMenuBuilder = new SubActionButton.Builder(this);
-        subMenuBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_action_red));
+        subMenuBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.red_selector));
         FrameLayout.LayoutParams menuLayout = new FrameLayout.LayoutParams(floatingMenuIconSize, floatingMenuIconSize);
         subMenuBuilder.setLayoutParams(menuLayout);
         ImageView weightIcon = new ImageView(this);
@@ -172,18 +176,42 @@ public class HomeScreenActivity extends AppCompatActivity implements
                 .addSubActionView(subMenuBuilder
                         .setContentView(weightIcon)
                         .setBackgroundDrawable(getResources()
-                                .getDrawable(R.drawable.button_action_yellow)).build())
+                                .getDrawable(R.drawable.yellow_selector)).build())
                 .attachTo(floatingActionButton)
                 .build();
         // adding listener to weight icon
         weightIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), RecordWeightActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                floatingActionHomeMenu.close(true);
-                finish();
+                String sqlCheckIfWeightSubmittedAlready = "select weightSubmitted " +
+                        "from userWeightRecord " +
+                        "where date = '" + myDate + "'";
+                Cursor cursor = cyclingPalDB.rawQuery(sqlCheckIfWeightSubmittedAlready, null);
+                final Intent intent = new Intent(view.getContext(), RecordWeightActivity.class);
+                if(cursor.getCount() != 0) {
+                    cursor.moveToFirst();
+                    if (cursor.getInt(0) == 1) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(view.getContext())
+                                .setTitle("Weight Already Submitted")
+                                .setMessage(R.string.confirm_update_weight)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        floatingActionHomeMenu.close(true);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                    }
+                                }).show();
+                    }
+                }
+                else {
+                    floatingActionHomeMenu.close(true);
+                    startActivity(intent);
+                }
             }
         });
         // logout button listener
@@ -231,31 +259,32 @@ public class HomeScreenActivity extends AppCompatActivity implements
 
             @Override
             public void onMenuClosed(FloatingActionMenu floatingActionMenu) {
-                floatingActionButton.setRotation(0);
-                PropertyValuesHolder pvhR = PropertyValuesHolder.ofFloat(View.ROTATION, 45);
+                floatingActionButton.setRotation(45);
+                PropertyValuesHolder pvhR = PropertyValuesHolder.ofFloat(View.ROTATION, 0);
                 ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(floatingActionButton, pvhR);
                 animation.start();
             }
         });
     }
-            private void initialiseUserWeightRecordTable() {
-                String sqlStatement = "create table if not exists userWeightRecord(" +
-                        "weight integer not null, " +
-                        "date text not null, " +
-                        "weightSubmitted integer not null, " +
-                        "email text not null," +
-                        "unique ( date ) " +
-                        "FOREIGN KEY (email) REFERENCES registrations(email));";
-                SQLiteDatabase cyclingPalDB = openOrCreateDatabase("CyclingPal", MODE_PRIVATE, null);
-                cyclingPalDB.execSQL(sqlStatement);
-                String sqlSelect = "select weight from userFitnessInfo where email = '" + email + "'";
-                Cursor cursor = cyclingPalDB.rawQuery(sqlSelect, null);
-                cursor.moveToFirst();
-                int weight = cursor.getInt(0);
-                java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                String myDate = dateFormat.format(new Date());
-                String sqlInsert = "INSERT INTO userWeightRecord (weight, date, weightSubmitted, email)" +
-                        "VALUES ( " + "'" + weight + "','" +  myDate + "','1'" + ",'" + email + "')";
-                cyclingPalDB.execSQL(sqlInsert);
-            }
+    //set Up userWeightRecord table
+    private void createUserWeightRecordTable() {
+        String sqlStatement = "create table if not exists userWeightRecord(" +
+                "weight integer not null, " +
+                "date text not null, " +
+                "weightSubmitted integer not null, " +
+                "email text not null," +
+                "unique ( date ) " +
+                "FOREIGN KEY (email) REFERENCES registrations(email));";
+        cyclingPalDB.execSQL(sqlStatement);
+    }
+
+        private void initialiseUserWeightRecordTable() {
+            String sqlSelect = "select weight from userFitnessInfo where email = '" + email + "'";
+            Cursor cursor = cyclingPalDB.rawQuery(sqlSelect, null);
+            cursor.moveToFirst();
+            int weight = cursor.getInt(0);
+            String sqlInsert = "INSERT INTO userWeightRecord (weight, date, weightSubmitted, email)" +
+                    "VALUES ( " + "'" + weight + "','" +  myDate + "','1'" + ",'" + email + "')";
+            cyclingPalDB.execSQL(sqlInsert);
+        }
 }

@@ -8,5 +8,6 @@
     <string name="user_base_calorie_message">Your base calorie value is: </string>
     <string name="user_weight_record">Your weight has been submitted successfully</string>
     <string name="duplicate_user_weight_record">Your weight has already been submitted</string>
+    <string name="confirm_update_weight">Do you want to change todays weight</string>
 
 </resources>
