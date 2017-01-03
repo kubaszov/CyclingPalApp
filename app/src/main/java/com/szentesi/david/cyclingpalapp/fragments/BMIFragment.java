@@ -97,9 +97,9 @@ public class BMIFragment extends Fragment {
         // creating Bar chart values
         ArrayList<BarEntry> bmiBarEntries = new ArrayList<>();
         bmiBarEntries.add(new BarEntry(18f, 0));
-        bmiBarEntries.add(new BarEntry(22f, 1));
+        bmiBarEntries.add(new BarEntry(24f, 1));
         bmiBarEntries.add(new BarEntry(((float) bmi), 2));
-        bmiBarEntries.add(new BarEntry(26f, 3));
+        bmiBarEntries.add(new BarEntry(30f, 3));
         // creating Bar chart labels
         ArrayList<String> chartLabels = new ArrayList<>();
         chartLabels.add("Underweight");
