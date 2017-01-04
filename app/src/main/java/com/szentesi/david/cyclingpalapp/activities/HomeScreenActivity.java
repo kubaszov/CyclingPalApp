@@ -96,6 +96,9 @@ public class HomeScreenActivity extends AppCompatActivity implements
 
             }
         });
+        createUserWeightRecordTable();
+        initialiseUserWeightRecordTable();
+
         floatingActionMenu(this);
         }
 
@@ -125,11 +128,6 @@ public class HomeScreenActivity extends AppCompatActivity implements
                 return calorieFragment;
             }
             else if (position == 2) {
-                createUserWeightRecordTable();
-                // if userWeightTable already has been initialised on the first run
-                if(sharedPreferences.getAll().size() < 0) {
-                    initialiseUserWeightRecordTable();
-                }
                 ProgressFragment progressFragment = new ProgressFragment();
                 return progressFragment;
             }
@@ -272,6 +270,7 @@ public class HomeScreenActivity extends AppCompatActivity implements
                 "weight integer not null, " +
                 "date text not null, " +
                 "weightSubmitted integer not null, " +
+                "caloriesBurnedToday real, " +
                 "email text not null," +
                 "unique ( date ) " +
                 "FOREIGN KEY (email) REFERENCES registrations(email));";
@@ -281,10 +280,15 @@ public class HomeScreenActivity extends AppCompatActivity implements
         private void initialiseUserWeightRecordTable() {
             String sqlSelect = "select weight from userFitnessInfo where email = '" + email + "'";
             Cursor cursor = cyclingPalDB.rawQuery(sqlSelect, null);
+            Cursor checkIfTableIsPopulated = cyclingPalDB.rawQuery("select weight from userWeightRecord where email = '" + email + "'", null);
             cursor.moveToFirst();
-            int weight = cursor.getInt(0);
-            String sqlInsert = "INSERT INTO userWeightRecord (weight, date, weightSubmitted, email)" +
-                    "VALUES ( " + "'" + weight + "','" +  myDate + "','1'" + ",'" + email + "')";
-            cyclingPalDB.execSQL(sqlInsert);
+            int weight = 0;
+            if(checkIfTableIsPopulated.getCount() == 0) {
+                weight = cursor.getInt(0);
+                String sqlInsert = "INSERT INTO userWeightRecord (weight, date, weightSubmitted, caloriesBurnedToday, email)" +
+                        "VALUES ( " + "'" + weight + "','" + myDate + "','1','0.0','" + email + "')";
+                cyclingPalDB.execSQL(sqlInsert);
+            }
+            cursor.close();
         }
 }

@@ -1,24 +1,119 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/calorie_fragment_tag"
     android:layout_height="match_parent"
-    tools:context="com.szentesi.david.cyclingpalapp.fragments.CalorieFragment">
+        tools:context="com.szentesi.david.cyclingpalapp.fragments.CalorieFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="@string/user_base_calorie_message"
-        android:id="@+id/calorieMessageTextView"
-        style="@style/UserPromptTextStyle"/>
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textAlignment="center"
-        android:layout_below="@+id/calorieMessageTextView"
-        android:id="@+id/userCalorieTextView"
-        style="@style/CyclingAppTextStyle"/>
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <android.support.v7.widget.CardView
+            android:id="@+id/calorie_recommended_per_day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            card_view:cardCornerRadius="10dp"
+            card_view:contentPadding="10dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="@string/user_base_calorie_message"
+                    android:id="@+id/calorieMessageTextView"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    style="@style/UserPromptTextStyle"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAlignment="center"
+                    android:id="@+id/userCalorieTextView"
+                    style="@style/CyclingAppTextStyle"/>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/calorie_burned_today_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            card_view:cardCornerRadius="10dp"
+            card_view:contentPadding="10dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="@string/user_base_calorie_burned_message"
+                    android:id="@+id/calorieBurnedMessageTextView"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    style="@style/UserPromptTextStyle"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAlignment="center"
+                    android:id="@+id/userCalorieBurnedTextView"
+                    style="@style/CyclingAppTextStyle"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom|center"
+                    android:textSize="10dp"
+                    android:paddingBottom="5dp"
+                    android:textColor="@color/steelBlue"
+                    android:text="Tap card to update"/>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/last_workout_card"
+            android:layout_margin="15dp"
+            card_view:cardCornerRadius="10dp"
+            card_view:contentPadding="10dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/last_workout_textview"
+                    android:textAlignment="center"
+                    android:text="@string/last_workout"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    style="@style/UserPromptTextStyle"/>
+
+                <TextView
+                    android:id="@+id/last_workout_textview_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAlignment="center"
+                    style="@style/CyclingAppTextStyle"/>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</ScrollView>

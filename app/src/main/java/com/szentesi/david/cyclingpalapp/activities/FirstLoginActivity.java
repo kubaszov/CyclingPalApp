@@ -1,6 +1,7 @@
 package com.szentesi.david.cyclingpalapp.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,11 +33,15 @@ public class FirstLoginActivity extends AppCompatActivity {
     private List<String> sexArray;
 
     private SQLiteDatabase cyclingPalDB = null;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_login);
+        sharedPreferences = this.getSharedPreferences(getApplicationContext().getPackageName(), MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         // set up List for spinner
         // http://stackoverflow.com/questions/11920754/android-fill-spinner-from-java-code-programmatically
         sexArray = new ArrayList<String>();
@@ -69,6 +74,7 @@ public class FirstLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 userAgeInt = Integer.parseInt(userAge.getText().toString());
                 userWeightInt = Integer.parseInt(userWeight.getText().toString());
+                editor.putInt("weight",0);
                 userHeightInt = Integer.parseInt(userHeight.getText().toString());
                 // how to get text to String using spinner
                 // http://stackoverflow.com/questions/10331854/how-to-get-spinner-selected-item-value-to-string

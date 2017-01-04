@@ -6,8 +6,16 @@
     <string name="duplicate_user_toast_prompt">User already exists</string>
     <string name="passwords_do_not_match_toast_prompt">Passwords do not match</string>
     <string name="user_base_calorie_message">Your base calorie value is: </string>
+    <string name="user_base_calorie_burned_message">Calories burned today: </string>
+    <string name="last_workout">In your previous day which you submitted a workout the Calories you burned: </string>
     <string name="user_weight_record">Your weight has been submitted successfully</string>
     <string name="duplicate_user_weight_record">Your weight has already been submitted</string>
-    <string name="confirm_update_weight">Do you want to change todays weight</string>
+    <string name="confirm_update_weight">Do you want to change todays weight.</string>
+    <string name="submmit_weight_first">Submit a weight first</string>
+    <string name="no_previous_days_workout_found">No previous days workout found</string>
+
+    <string name="submit_workout_title">Add a bike workout</string>
+    <string name="submit_workout_time">How many minutes did I do</string>
+    <string name="submit_workout_intensity">"How intense was it? :"</string>
 
 </resources>

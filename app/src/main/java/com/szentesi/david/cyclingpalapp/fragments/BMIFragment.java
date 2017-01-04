@@ -37,6 +37,7 @@ public class BMIFragment extends Fragment {
 
     private SQLiteDatabase cyclingPalDB = null;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     public static String TAG = "BMIFRAGMENT";
 
     private OnFragmentInteractionListener mListener;
@@ -62,6 +63,7 @@ public class BMIFragment extends Fragment {
         bmiFragmentView = inflater.inflate(R.layout.fragment_bmi, container, false);
         Context context = bmiFragmentView.getContext();
         sharedPreferences = context.getSharedPreferences(context.getPackageName(), context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         userEmail = sharedPreferences.getString("emailContainer", null);
         bmiTextView = (TextView)bmiFragmentView.findViewById(R.id.bmiTextView);
         bmiBarChart = (BarChart)bmiFragmentView.findViewById(R.id.bmiBarChart);
