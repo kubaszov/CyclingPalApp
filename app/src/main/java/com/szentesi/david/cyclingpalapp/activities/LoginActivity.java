@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import android.widget.Button;
@@ -30,13 +31,13 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    TextView loginAttempts;
-    int counter = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.loginToolbar);
+        toolbar.setTitle("Login");
         // initialise sharedPreferences to this app's database
         sharedPreferences = this.getSharedPreferences(getApplicationContext().getPackageName(), MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -45,8 +46,6 @@ public class LoginActivity extends AppCompatActivity {
         usernameInput = (EditText)findViewById(R.id.userNameEditText);
         passwordInput = (EditText)findViewById(R.id.passwordEditText);
         registerButton = (Button)findViewById(R.id.registerButton);
-        loginAttempts = (TextView)findViewById(R.id.attemptsCounterTextView);
-        loginAttempts.setVisibility(View.GONE);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

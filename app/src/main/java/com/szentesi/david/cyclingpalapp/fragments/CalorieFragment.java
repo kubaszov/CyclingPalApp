@@ -208,7 +208,7 @@ public class CalorieFragment extends Fragment {
                 " SET caloriesBurnedToday = " + totalCaloriesToday +
                 " WHERE date == '" + date + "' AND email == '" + userEmail +"'";
         cyclingPalDB.execSQL(sql);
-        userCalorieBurnedTextView.setText(String.valueOf(totalCaloriesToday));
+        userCalorieBurnedTextView.setText(String.format("%.2f", totalCaloriesToday));
         previousCaloriesCursor.close();
     }
 
@@ -230,7 +230,7 @@ public class CalorieFragment extends Fragment {
         Cursor previousCaloriesCursor = cyclingPalDB.rawQuery("SELECT caloriesBurnedToday FROM userWeightRecord WHERE date == '" + date + "'", null);
         previousCaloriesCursor.moveToFirst();
         if(previousCaloriesCursor.getCount() > 0) {
-            userCalorieBurnedTextView.setText(String.valueOf(previousCaloriesCursor.getDouble(0)));
+            userCalorieBurnedTextView.setText(String.format("%.2f", previousCaloriesCursor.getDouble(0)));
         }
         previousCaloriesCursor.close();
     }

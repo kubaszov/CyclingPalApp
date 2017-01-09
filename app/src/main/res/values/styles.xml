@@ -24,4 +24,20 @@
         <item name="android:padding">@dimen/activity_vertical_margin</item>
     </style>
 
+    <style name="ButtonStyle">
+        <item name="android:textColor">@color/primaryBlack</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
+    <style name="LoginEditTextStyle">
+        <item name="android:textColor">#e3f2fd</item>
+        <item name="android:textColorHint">#e3f2fd</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 </resources>

@@ -4,47 +4,23 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.szentesi.david.cyclingpalapp.activities.LoginActivity">
 
-    <EditText
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/userNameEditText"
-        android:hint="Enter User Name"
-        android:textAlignment="center"
-        android:textColorLink="@android:color/holo_blue_light"
-        android:layout_alignBottom="@+id/passwordEditText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="26dp" />
+        android:background="?attr/colorPrimary"
+        android:theme="?attr/actionBarTheme"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:id="@+id/loginToolbar"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/passwordEditText"
-        android:hint="Password"
-        android:textAlignment="center"
-        android:textColorLink="@android:color/holo_blue_light"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/userNameEditText"
-        android:layout_alignStart="@+id/userNameEditText" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:id="@+id/loginTextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="?attr/actionMenuTextColor"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/cyclist"
+        android:scaleType="centerCrop"
+        android:layout_below="@+id/loginToolbar" />
 
     <TextView
         android:text="Cycling Pal"
@@ -52,39 +28,36 @@
         android:layout_height="wrap_content"
         android:id="@+id/appTitleTextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        tools:textColor="@android:color/holo_blue_dark"
-        android:layout_below="@+id/loginTextView"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_below="@+id/loginToolbar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp" />
 
-    <TextView
-        android:text="Attempts left:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/attemptsTextView"
-        android:layout_below="@+id/passwordEditText"
-        android:layout_toLeftOf="@+id/loginTextView"
-        android:layout_toStartOf="@+id/loginTextView"
-        android:layout_marginRight="15dp"
-        android:layout_marginEnd="15dp" />
+    <EditText
+        android:inputType="textPersonName"
+        android:id="@+id/userNameEditText"
+        android:hint="Enter User Name"
+        android:layout_above="@+id/passwordEditText"
+        style="@style/LoginEditTextStyle"/>
 
-    <TextView
-        android:text="New text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/attemptsCounterTextView"
-        android:layout_below="@+id/passwordEditText"
-        android:layout_centerHorizontal="true" />
+    <EditText
+        android:inputType="textPassword"
+        android:id="@+id/passwordEditText"
+        android:hint="Password"
+        android:layout_above="@+id/loginButton"
+        android:layout_marginBottom="15dp"
+        style="@style/LoginEditTextStyle"/>
 
     <Button
         android:text="login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/loginButton"
-        android:layout_marginTop="12dp"
-        android:layout_below="@+id/attemptsTextView"
-        android:layout_toLeftOf="@+id/appTitleTextView"
-        android:layout_toStartOf="@+id/appTitleTextView" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="15dp"
+        style="@style/ButtonStyle" />
 
     <Button
         android:text="register"
@@ -96,18 +69,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="15dp"
-        android:layout_marginEnd="15dp" />
-
-    <Button
-        android:text="forgot password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/forgotPasswordButton"
-        android:layout_below="@+id/registerButton"
-        android:layout_alignLeft="@+id/passwordEditText"
-        android:layout_alignStart="@+id/passwordEditText"
-        android:layout_toStartOf="@+id/registerButton"
-        android:layout_alignRight="@+id/passwordEditText"
-        android:layout_alignEnd="@+id/passwordEditText" />
+        android:layout_marginBottom="15dp"
+        style="@style/ButtonStyle" />
 
 </RelativeLayout>
